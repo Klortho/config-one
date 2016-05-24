@@ -49,7 +49,6 @@ suite.addBatch({
     },
     'should reflect overrides': function(cfg) {
       if (!test1_done) throw Error('sequential, dammit!');
-      assert(true);
       checkSpec(cfg,
         { 'current-site': 'dev',
           sites: {
@@ -66,6 +65,33 @@ suite.addBatch({
     },
   },
 });
+
+suite.addBatch({
+  'README example 3: semver example': {
+    topic: function() {
+      process.chdir(__dirname + '/readme3');
+      return require('./readme3/main.js');
+    },
+    'computes best version correctly': function(cfg) {
+      assert(true);
+
+      checkSpec(cfg,
+        { cdn: 'https://cdn.org/',
+          libs: { 
+            available: {  
+              'markdown-it': {
+                versions: [ '1.0.0', '1.1.0', '2.0.1' ],
+              },
+            },
+            required: { 'markdown-it': '>=2.0.0' },
+            enabled: { 'markdown-it': '2.0.1' } 
+          } 
+        }
+      );
+    },
+  },
+});
+
 
 
 

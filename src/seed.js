@@ -193,8 +193,10 @@ const newView = function(root, sources, key, depth) {
   // option. If so, the context will be the c1 object itself.
   const cooked = root ? cookAll(root, sources) : sources;
 
-  // FIXME: need to verify that all of the srcnodes are of compatible type (?)
-  // For now, just rely on the type of the highest-precedence one.
+  // FIXME: Make an option for the user to pass in a validator that gets applied
+  // here. One "canned" validator might be one that 
+  // made sure that an item is not getting overridden by 
+  // something of a different type
   const item = cooked[0];
   const t = nodeType(item);
 
@@ -210,7 +212,6 @@ const newView = function(root, sources, key, depth) {
     const _root = root ? root : vnode;
 
     // Make the mapping for all of the keys to the lists of sources for that key.
-    // FIXME: Which keys? See get-all-property-names.js
     const mapping = _mapping(cooked);
 
     // Add a non-enumerable property __config1__ to the view, to store various
@@ -250,33 +251,6 @@ const newView = function(root, sources, key, depth) {
   return vnode;
 };
 
-// FIXME: this is not thoroughly tested yet.
-var freeze = function(cfg) {
-  return (function _freeze(cfg, key) {
-    var t = nodeType(cfg);
-    const keystr = (key ? `${key}: ` : '');
-    var ret = cfg;
-
-    if (t === 'atom') {
-    }
-
-    else if (t === 'view') {
-      // FIXME: need to clone a function maybe
-      ret = (cfg instanceof Array) ? [] : {};
-      Object.keys(cfg).forEach(function(k) {
-        ret[k] = _freeze(cfg[k], k);
-      });
-    }
-
-    // should be none of these:
-    else if (t === 'object' || t == 'recipe') {
-      console.error('Very strange indeed!');
-    }
-
-    return ret;
-  })(cfg);
-};
-
 // nodeType - determine the type of a node; one of: atom,
 // object, recipe, or view.
 const nodeType = function(node) {
@@ -311,8 +285,37 @@ var recipe = function(func) {
 var recipeCount = 0;
 
 
-// Utilities, if needed
+// Utilities
+//----------
 
+// freeze
+
+// FIXME: this is not thoroughly tested yet.
+var freeze = function(cfg) {
+  return (function _freeze(cfg, key) {
+    var t = nodeType(cfg);
+    const keystr = (key ? `${key}: ` : '');
+    var ret = cfg;
+
+    if (t === 'atom') {
+    }
+
+    else if (t === 'view') {
+      // FIXME: need to clone a function maybe
+      ret = (cfg instanceof Array) ? [] : {};
+      Object.keys(cfg).forEach(function(k) {
+        ret[k] = _freeze(cfg[k], k);
+      });
+    }
+
+    // should be none of these:
+    else if (t === 'object' || t == 'recipe') {
+      console.error('Very strange indeed!');
+    }
+
+    return ret;
+  })(cfg);
+};
 
 // Pretty-printer
 
@@ -324,6 +327,9 @@ const ppString = obj =>
 const ppConsole = cfg => {
   console.log(ppString(freeze(cfg)));
 };
+
+
+// Prepare exports
 
 // Expose the private functions in a `private` property, for unit tests
 const _private = {
@@ -348,12 +354,11 @@ const Config1 = {
   ppConsole, ppConsole,
 };
 
-// c1.seed - The original c1 object, from which all others derive. This is the
+// C1.seed - The original C1 object, from which all others derive. This is the
 // the export of this module. This has to come last, after Config1 has been
 // initialized.
 const seed = clone();
-seed.options = {
-};
+seed.options = {};
 _private.seed = seed;
 
 module.exports = seed;

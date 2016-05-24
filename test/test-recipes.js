@@ -47,12 +47,6 @@ suite.addBatch({
       assert.equal(config.b, 1);
     },
 
-    // FIXME: Skip this one for now, because of the way _.merge() works (see above)
-    //"Recipes which return objects should still be treated as a single value." :
-    //  function () {
-    //    assert.deepEqual(conf.map.centerPoint, { lat: 3, lon: 4 });
-    //  },
-
     'Recipes can return objects': function() {
       var config = X(
         { a: {

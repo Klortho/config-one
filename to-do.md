@@ -1,6 +1,19 @@
 # To do
 
-## High priority - finish a 1.0.0 release
+## For initial alpha release
+
+* Check phone for other ideas for the presentation
+* Talk about why people put stuff into config files in the first place: because
+  it's easier to make changes there.
+* Build a browser version
+* Integrate with tree-chart and make a demo page
+
+
+## First beta release
+
+* Change license
+* Get it working (for runtime, not dev) in earlier versions of node. How to 
+  get travis to test runtime-only in those environments?
 
 * Finish the documentation. Go through:
     * Content below the fold, below
@@ -11,15 +24,14 @@
     * envPrefix
     * envJson
 
-* Get it working robustly with arrays and functions. (See the GitHub issue).
-
-* Refer to the tree-chart demo (once that's done)
-
-* Find and destroy `FIXME`s
+* Get it working robustly with arrays and functions.
+    * See the GitHub issue
+    * See get-all-property-names.js for some experiments
+    * Verify you fix the problem in test-examples/readme3
 
 * Add some of the write-up of "motivation", in
   [settings-resolver](https://github.com/Klortho/settings-resolver), to
-  this README.
+  the README.
 
 
 ## Improve presentation / demo
@@ -28,6 +40,8 @@
   is huge, and the comments in the code are extensive, and there's a lot of 
   overlap. I think a literate programming library could turn it into a really
   nice document.
+
+## Implementation improvements
 
 * Instead of my current mix-in strategy for the new C1 objects, use an ES6 
   class with a Symbol.species of `Function` (see 
@@ -40,6 +54,21 @@
 ----
 
 Integrate all this content into the README, after going through it.
+
+
+Caveats:
+
+* Don't expect to change the config files, and then be able to reload them
+  using the same C1 object. If you ever want to reload files that have been
+  loaded before, use `C1.new()`.
+
+
+Add to "future":
+
+* Any override can reach in and access any layer of the chain. You could make
+  alias top-level keys for this purpose, like, `C.__layer[5]...`. The
+  current layer number could be `C.__currentLayer`.
+* Inside recipes, be able to access config info through relative references.
 
 
 ## How tos / use cases
