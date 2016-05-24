@@ -19,14 +19,7 @@ module.exports = function() {
   return {
     configDirEnv: 'CONFIG1_DIR',
 
-    // You have to override this (with any value) every time you want to "reset" 
-    // the tool to use a new process environment. Otherwise, it will use the same
-    // values it read from before.
-    // ???
-
-
     configDir: recipe(X=> {
-      log('defaults.js: reading configDir, cwd: ' + process.cwd());
       const env = X.configDirEnv;
       const rel = process.env[env] || process.cwd();
       return path.resolve(rel);
@@ -54,7 +47,6 @@ module.exports = function() {
     // Environent variables. Setting this to the empty string or null will 
     // disable looking for config info in the environment  
     envPrefix: 'CONFIG1_',
-
 
     // The source specification types we understand. The `sources` option is
     // a list of source specifications, each of which is a plain object with a

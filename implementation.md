@@ -5,9 +5,6 @@ FIXME: Content below the horizontal rule below -- see if anything is useful
 ## Design
 
 
-
-
-
 Everything in this library is immutable.
 
 A *config* is a tree of data, as supplied to us by the user.

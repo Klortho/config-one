@@ -23,13 +23,14 @@ is not yet done.
 
 ## Features
 
-* Seamless cascade. Create new configs at any time, using any other to
-  provide the defaults.
-* Computed configuration settings. Any setting can compute its value from any other
-  setting, using "recipes" (which are just JavaScript functions). Overrides preserve
-  these references, and they *just work*. No need to worry about the order of
-  evaluation, or any other implemention details.
-* Fast and efficient - settings are resolved in O(log n) time (FIXME: need to verify).
+* Flexible, robust overrides. You can overlay new configation sources at any 
+  time.
+* Computed configuration settings. Any setting can compute its value from 
+  any other setting, using "recipes" (which are just JavaScript functions).
+  Overrides preserve the references, and they *just work*. No need to worry 
+  about the order of evaluation, how deep in the defaults the functions
+  are, or any other implemention details.
+* Many more. [More complete documentation coming soon.]
 
 
 ## Quick start
@@ -99,72 +100,50 @@ For example, if you ran with `CONFIG1_sites.dev.port=9000`, the example above
 would yield `9000`.
 
 
+## Overrides and recipes
+
+More detailed documentation is coming soon, but for an example of what you can
+do, have a look at the options settings for this library itself, at
+[src/defaults](src/defaults).
+
+Note how the settings variables are normalized to eliminate redundancy, and
+logic that derives some settings from others is baked in, using "recipes"
+(sorry for the pun)! The unique thing about this library is that these recipes
+will work, without having to fret about the order of evaluation, or when they
+are evaluated, or how they are overridden. You can override them at any point
+in the processing chain, and the library will do the right thing.
 
 
 
 
+## API
 
+```javascript
+var C1 = require('config-one');
 
-Options
+// Read configuration data according to the current options
+var cfg = C1();
 
-`fetchSource(sourceSpec)` - fetches a real source object from a specifier
+// Make a new, permanent clone with custom options.
+var C2 = C1.new(opts);
 
+// Read config data from a set of source specifiers.
+var cfg = C1.read(...sourceSpecifiers)
 
+// Create a new view over the supplied config objects and/or views
+var cfg = C1.extend(...configs);
 
+// Create a new recipe (used inside configuration objects)
+C1.recipe(<function>)
 
-Each item in the `configs` list is one of:
+// Shortcut for .recipe() (one argument which is a function)
+C1(<function>)
+```
 
-- a plain-old config (JavaScript object), 
-- a string - filesystem path or a url
-- a View (?)
-- a `recipe` that produces one of the above. This recipe's context is
-  `c1`'s options object.
-
-
-## How tos / use cases
-
-* This could be used to implement a universal configuration handler for an
-  application. Build configuration and runtime configuration could be managed
-  the same way. For example, request time info like cookies or query-string
-  parameters could be used to override selected configuration data to aid in
-  debugging.
-
-* *Recipes* could be leveraged to provide validation and/or normalization of
-  data values. See this [feature
-  request](https://github.com/lorenwest/node-config/issues/319) against
-  node-config, for example.
-
-### Recursive option-setting API
-
-A very useful pattern for a software library is to provide a way for users to override
-settings values. To maximize the potential for reuse, and handy software pattern is
-to return an object to the user that behaves just like the original object (same API)
-but with modified options.
-
-Extending that idea to its logical conclusion, the returned object should itself
-expose the same interface for allowing options to be overridden. To any user of
-*that* object, the overridden settings look like the defaults.
-
-
-### Frozen configs
-
-A *frozen config* is a *config* that has had
-all of its *recipes* evaluated (think of cooking all the dishes, packing them
-in tupperware, and putting them in the freezer).
-
-There are no artifacts of this library left
-in the tree. All objects remaining in the tree are plain JavaScript (note that
-that's not the same as "plain old JSON" -- they can include any kind of
-JavaScript object, class, function, etc., *except* the ones from this
-library.)
-
-This would have to be a deep copy of the original, since we depend on
-the immutability of the original *objects*.
 
 
 
 ## Building / development
-
 
 ```
 npm install
@@ -176,8 +155,6 @@ To compile all the ES6 into more portable ES5, using babel:
 ```
 npm run build   #=> products are written to dist/
 ```
-
-
 
 ## Acknowledgements
 
@@ -204,42 +181,15 @@ a view into them, that looks like a single map to the user.
 
 ## Future enhancements
 
-See [Future enhancements](doc/future.md).
+See [Future enhancements](future.md).
 
 ## Implementation
 
-See [Implementation details](doc/implementation.md).
+See [Implementation details](implementation.md).
 
 ## To do
 
-* Finish the default sources for config info.
-
-* Document with literate programming technique. The "implementation section
-  is huge, and the comments in the code are extensive, and there's a lot of 
-  overlap. I think a literate programming library could turn it into a really
-  nice document.
-
-* Use klortho/tree to develop easy-to-use animated tree diagram
-
-* Instead of my current mix-in strategy for c1 objects, use an ES6 class with a 
-  Symbol.species of `Function` (see 
-  [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Species))
-
-* Also use a Symbol to identify recipe instances.
-  Read this [intro to species](http://blog.keithcirkel.co.uk/metaprogramming-in-es6-symbols/)
-
-* Find and destroy `FIXME`s
-
-* See also [GitHub issues](https://github.com/Klortho/config-one/issues)
-
-* Add some of the write-up of "motivation", in
-  [settings-resolver](https://github.com/Klortho/settings-resolver), to
-  this README.
-
-* Let's use
-  [d3-flextree](http://klortho.github.io/d3-flextree/index.html) to make
-  some nifty animated diagrams, illustrating how it works. See also
-  [dtd-diagram](http://klortho.github.io/dtd-diagram/)
+See [To do list](to-do.md)
 
 ## License
 
