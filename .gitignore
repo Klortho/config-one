@@ -1,0 +1,7 @@
+*-cfm.md
+/dist/
+/.idea/
+/node_modules/
+/try/
+# temporary:
+/webpack-dist/

@@ -1,0 +1,5 @@
+{ "current-site": "dev",
+  "sites": {
+    "dev": { "port": 8880 }
+  }
+}
