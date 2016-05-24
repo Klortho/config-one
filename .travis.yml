@@ -4,4 +4,3 @@ before_install:
   - npm update -g npm
 node_js:
   - "6.0"
-  - "4.4"

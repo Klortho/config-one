@@ -9,9 +9,21 @@ configuration data. This module uses a simple yet sophisticated algorithm,
 based on functional programming principles, to provide a robust and  
 flexible mechanism for managing and merging configuration data trees.
 
+<div style='background: #DDD; border: 2px solid #888; border-radius: 1em; margin: 2em; padding: 0.8em;'>
+
+***Alpha version***
+
+This library is still in a very early stage, and the API is likely to change.
+
+Also, currently this requires Node.js version 6. I'll fix the build process
+so that the distribution version can be used with earlier versions, but  that
+is not yet done.
+
+</div>
+
 ## Features
 
-* Seamless cascade. Create new *configs* at any time, using any other to
+* Seamless cascade. Create new configs at any time, using any other to
   provide the defaults.
 * Computed configuration settings. Any setting can compute its value from any other
   setting, using "recipes" (which are just JavaScript functions). Overrides preserve
@@ -19,41 +31,6 @@ flexible mechanism for managing and merging configuration data trees.
   evaluation, or any other implemention details.
 * Fast and efficient - settings are resolved in O(log n) time (FIXME: need to verify).
 
-
----
-
-Final version of the API. This document needs to be updated to reflect this.
-
-```javascript
-var config1 = require('config-one');
-
-// Get configuration from current options
-config1();
-
-// Shortcut for .recipe() (one argument which is a function)
-config1(<function>)
-
-// Make a new, permanent clone with custom options
-config1.new(opts);
-
-// Read config data from a real set of source specifiers.
-config1.read(...sourceSpecifiers)
-
-// Create a new view over the supplied objects
-config1.extend(...configs);
-
-// Create a new recipe
-config1.recipe(<function>)
-```
-
----
-
-
-Caveats:
-
-* Don't expect to change the config files, and then be able to reload them
-  using the same C1 object. If you ever want to reload files that have been
-  loaded before, use `C1.new()`.
 
 ## Quick start
 
@@ -126,30 +103,6 @@ would yield `9000`.
 
 
 
-
-```javascript
-var config = require('config-one')();
-```
-
-Then you could expect `config` to be:
-
-```
-{ db: { 
-    name: 'customers',
-    aliases: ['ord', 'order'],
-    host: 'example.com',
-    port: 80,
-  },
-}```
-
-You can specify other sources of overrides, and apply them whenever you
-want. The returned values are immutable, so when you apply a new set of
-overrides, you get a new `config` object (the old one can still be used).
-
-
-```javascript
-var zomboConfig = config.apply('zombo.js', 'wumbus.js');
-``` 
 
 
 Options

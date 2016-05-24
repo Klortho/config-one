@@ -53,10 +53,10 @@ const _new = function(opts) {
   const c1 = this;
   const next = clone();
 
-  // FIXME: Why isn't this working without me creating a new copy of defaults? 
-  //const defaults = require('./defaults.js')();
-  //next.options = opts ? c1.extend(defaults, c1.options, opts) : c1.options;
-  next.options = opts ? c1.extend(c1.options, opts) : c1.options;
+  // If no opts were given, use an empty object. This forces the library to
+  // create a new view, which means all recipes (which might depend on env.
+  // variables, for instance) will get re-evaluated.
+  next.options = c1.extend(c1.options, (opts || {}));
   return next;
 };
 
