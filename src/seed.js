@@ -15,18 +15,14 @@ const template = function(...args) {
         opts = this.options;
 
   log.enter('seed:template: welcome my son, num args: ' + args.length);
-  var ret;
 
   // If there's just one argument that is a Function, then this is being used
   // as a shortcut for `recipe`.
-  if (args.length == 1 &&
-      args[0] instanceof Function && nodeType(args[0]) !== 'recipe') {
-    ret = recipe(args[0]);
-  }
-  else {
-    log.enter('calling read');
-    ret = c1.read.apply(c1, c1.options.sources);
-  }
+  const isRecipe = (args.length == 1 &&
+      args[0] instanceof Function && nodeType(args[0]) !== 'recipe');
+
+  const ret = isRecipe ? recipe(args[0]) :
+    c1.read.apply(c1, c1.options.sources);
 
   log.exit();
   return ret;
