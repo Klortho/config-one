@@ -9,8 +9,6 @@ configuration data. This module uses a simple yet sophisticated algorithm,
 based on functional programming principles, to provide a robust and  
 flexible mechanism for managing and merging configuration data trees.
 
-<div style='background: #DDD; border: 2px solid #888; border-radius: 1em; margin: 2em; padding: 0.8em;'>
-
 ***Alpha version***
 
 This library is still in a very early stage, and the API is likely to change.
@@ -19,7 +17,6 @@ Also, currently this requires Node.js version 6. I'll fix the build process
 so that the distribution version can be used with earlier versions, but  that
 is not yet done.
 
-</div>
 
 ## Features
 
@@ -132,62 +129,45 @@ module.exports = {
       // ...
     },
 
-    // Recipe for the enabled libraries
-
+    // Recipe to determine the enabled libraries
     enabled: C1(X=> { 
-
-      // Recipe will return this object
-      var enabled = {};
-
-      // References to other config items
+      var enabled = {};   // The recipe will return this object
+      // References to other config items:
       var available = X.libs.available,  
           required = X.libs.required;
 
-      // For each required lib
       Object.keys(required).forEach(key => {   
         var req = required[key],
             avail = available[key];
 
-        // Is it available?
         if (!avail || !avail.versions) { throw Error('lib not available');  }
 
-        // Find a matching version
-
-        // FIXME: for now, this is needed, because the `sort` method is not 
-        // working on our array view
+        // Find a matching version [FIXME: need `freeze` for now]
         var versions = C1.freeze(avail.versions);
 
         var winner = best(versions, req);
         if (!winner) { throw Error('no matching semver'); }
-
         enabled[key] = winner;
       });
-
       return enabled;
     })
   }
 };
 ```
 
-The advantage of doing this is that you could override any of the settings,
-whether they be from hard-coded data or recipes, and other settings that 
-use those values will be correct. In other words, the semantic logic behind
-the settings values does not get clobbered by the overrides.
-
-
+Putting these functions in the settings file allows you to override them at
+any step in the processing chain, and other settings that 
+use those values will be correct. In other words, the semantic logic that
+ties the settings together does not get clobbered by the overrides.
 
 More detailed documentation is coming soon, but for another example of what you 
 can do, have a look at the options settings for this library itself, at
-[src/defaults](src/defaults).
+[src/defaults.js](src/defaults.js).
 
 Note how the settings variables are normalized to eliminate redundancy, and
-logic that derives some settings from others is baked in, using "recipes"
-(sorry for the pun)! The unique thing about this library is that these recipes
-will work, without having to fret about the order of evaluation, or when they
-are evaluated, or how they are overridden. You can override them at any point
-in the processing chain, and the library will do the right thing.
-
-
+logic that derives some settings from others is baked in, using recipes
+(sorry for the pun)! These recipes work without your having to fret about 
+the order of evaluation, or how or when they are overridden. 
 
 
 ## API
@@ -215,10 +195,7 @@ C1(<function>)
 
 // Make a permanent, static deep copy of a configuration view
 var opts = C1.freeze(cfg);
-
 ```
-
-
 
 ## Building / development
 
@@ -227,10 +204,17 @@ npm install
 npm test
 ```
 
-To compile all the ES6 into more portable ES5, using babel:
+To compile all the ES6 into more portable ES5, using babel, use the following.
+Outputs are written to "dist".
 
 ```
-npm run build   #=> products are written to dist/
+npm run build
+```
+
+To generate the browser version dist/config1.js:
+
+```
+webpack
 ```
 
 ## Acknowledgements
@@ -270,4 +254,7 @@ See [To do list](to-do.md)
 
 ## License
 
-[WTFPL](http://www.wtfpl.net/)
+Public domain. 
+
+[ODC Public Domain Dedication & License 
+1.0](http://opendatacommons.org/licenses/pddl/1.0/)

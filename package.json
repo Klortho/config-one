@@ -23,7 +23,7 @@
     "environment"
   ],
   "author": "Chris Maloney",
-  "license": "WTFPL",
+  "license": "PDDL-1.0",
   "bugs": {
     "url": "https://github.com/Klortho/config-one/issues"
   },

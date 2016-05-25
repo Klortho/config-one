@@ -60,6 +60,46 @@ const _new = function(opts) {
   return next;
 };
 
+// Traverse-type utilities. 
+// FIXME: I want to make sure that all of the routines here use the same
+// lower-level functions, so that they all agree on exactly how they deal
+// with various properties and attributes.
+
+// visit every node in a config object (without evaluating recipes) or
+// a view, running pre- and post-traversal functions on each.
+const walk = R.curry((pre, post, tree) => {
+  pre(tree);
+  Object.keys(tree).map(walk(pre, post));
+  post(tree);
+});
+
+// Quick and dirty deep equals.
+
+// compare types, considering view and object to be the same
+const cmpType = function(item) {
+  const t = nodeType(item);
+  return t == 'view' ? 'object' : t;
+};
+
+const deepEqual = (actual, expected) => {
+  const ta = cmpType(actual),
+        tb = cmpType(expected);
+  if (ta !== tb) return false;
+  if (ta === 'recipe') return actual === expected;
+  if (ta === 'atom') {
+    return (actual == expected);
+  }
+
+  const aKeys = Object.keys(actual);
+  const eKeys = Object.keys(expected);
+  if (aKeys.length != eKeys.length) return false;
+  aKeys.map(function(k) {
+    if (!(k in expected)) return false;
+    if (!deepEqual(actual[k], expected[k])) return false;
+  });
+  return true;
+};
+
 // ✓ has test.
 // Create a new array if it doesn't exist already, and push a value into it.
 const aggregate = function(acc, value) {
@@ -110,34 +150,23 @@ const _mapping = function(objects) {
 // If none of the sources resolve to any config data objects, this returns null.
 const read = function(...specs) {
   const c1 = this;
-  log.enter('seed:read(): number of specs: ' + specs.length);
-  log('specs: ', specs);
 
   // Reverse them, to get them into "internal" order
   const rspecs = R.reverse(specs);
-  log('rspecs: ', rspecs);
 
   // Fetch the real sources from the user-supplied source-specifiers.
   const _sources = rspecs.map(spec => c1.options.fetchSource(spec));
-  log('_sources: ', _sources);
   const sources = _sources.filter(s => !!s);
-  log('sources: ', sources);
-  log('sources.length: ', sources.length);
-
 
   const root = (sources.length == 0) ? null : (()=> {
-    log('seed:read(): getting new view from: ', sources);
     const _root = newView(null, sources, null, 0);
 
-    log('seed:read(): got root: ', _root);
     const data = _root.__config1__;
     data.root = _root;
     data.c1 = c1;
     return _root;    
   })();
-  log('root: ', root);
 
-  log.exit();
   return root;
 };
 
@@ -341,6 +370,7 @@ const _private = {
   Recipe: Recipe,
   recipeCount: recipeCount,
   template: template,
+  nodeType: nodeType,
 };
 
 const Config1 = {
@@ -351,7 +381,9 @@ const Config1 = {
   recipe: recipe,
   freeze: freeze,
   ppString: ppString,
-  ppConsole, ppConsole,
+  ppConsole: ppConsole,
+  walk: walk,
+  deepEqual: deepEqual,
 };
 
 // C1.seed - The original C1 object, from which all others derive. This is the

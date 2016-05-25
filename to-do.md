@@ -2,18 +2,20 @@
 
 ## For initial alpha release
 
-* Check phone for other ideas for the presentation
-* Talk about why people put stuff into config files in the first place: because
-  it's easier to make changes there.
 * Build a browser version
 * Integrate with tree-chart and make a demo page
 
 
 ## First beta release
 
-* Change license
-* Get it working (for runtime, not dev) in earlier versions of node. How to 
-  get travis to test runtime-only in those environments?
+## Package and test as a *library*
+
+* Get it working (for runtime, not dev) in earlier versions of node. 
+    * How to get travis to test runtime-only in those environments?
+    * Using Sinopia for testing, build and publish using node 6
+    * Install and `require` into node 6 and node 4 test projects
+
+* Integrate webpack for the browser version into an integrated build.
 
 * Finish the documentation. Go through:
     * Content below the fold, below
@@ -40,6 +42,9 @@
   is huge, and the comments in the code are extensive, and there's a lot of 
   overlap. I think a literate programming library could turn it into a really
   nice document.
+
+* Get "cookieman" working, then demo overriding settings at runtime, live.
+
 
 ## Implementation improvements
 

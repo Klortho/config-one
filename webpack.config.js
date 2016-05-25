@@ -6,7 +6,7 @@ module.exports = {
   output: {
     library: 'config1',
     libraryTarget: 'var',
-    path: __dirname + '/webpack-dist',
+    path: __dirname + '/dist',
     filename: 'config1.js',
   },
   devtool: 'inline-sourcemap',

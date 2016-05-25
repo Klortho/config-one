@@ -1,0 +1,63 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>Test</h1>
+    <p>Quick and dirty check that it works in Chrome. This is not part
+    of the test suite.
+    </p>
+    <p id='pass' style='color: green;'></p>
+    <p id='fail' style='color: red;'></p>
+    <script src='dist/config1.js'></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(event) { 
+        const ℂ = window.config1;
+        const nodeType = ℂ.private.nodeType;
+        const deepEqual = ℂ.deepEqual;
+
+        const assert = function(pred) {
+          if (!pred) throw Error('no good!');
+        }
+
+        var config0 = {
+          ver: '1.0.0',
+          mdlib: 'markdown-it',
+          libs: ℂ(Ɔ=> ({
+            mdlib: Ɔ.mdlib,
+            jqlib: 'jQuery',
+          })),
+          cdn: 'https://cdn.org/',
+          jqurl: ℂ(Ɔ=> Ɔ.cdn + Ɔ.libs.jqlib + '-' + Ɔ.ver),
+        };
+        var config1 = {
+          ver: '1.1.0',
+          libs: { funclib: 'ramda', },
+          clibs: ℂ(Ɔ=> Ɔ.libs),
+        };
+        var config = ℂ.extend(config0, config1);
+
+        var res = deepEqual(config,
+          { ver: '1.1.0',
+            mdlib: 'markdown-it',
+            libs: {
+              mdlib: 'markdown-it',
+              jqlib: 'jQuery',
+              funclib: 'ramda'
+            },
+            cdn: 'https://cdn.org/',
+            jqurl: 'https://cdn.org/jQuery-1.1.0',
+            clibs: {
+              mdlib: 'markdown-it',
+              jqlib: 'jQuery',
+              funclib: 'ramda'
+            },
+          }
+        );
+
+        document.getElementById('pass').innerHTML = 'pass';
+
+      });
+
+    </script>
+  </body>
+</html>

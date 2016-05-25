@@ -125,7 +125,6 @@ suite.addBatch({
         libs: { funclib: 'ramda', },
         clibs: ℂ(Ɔ=> Ɔ.libs),
       };
-      // FIXME: add config1
       var config = X(config0, config1);
       assert.deepEqual(config,
         { ver: '1.1.0',
