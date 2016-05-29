@@ -358,28 +358,30 @@ const ppConsole = cfg => {
 
 // Expose the private functions in a `private` property, for unit tests
 const _private = {
-  aggAllObjects: aggAllObjects,
-  aggObjects: aggObjects,
-  aggregate: aggregate,
-  clone: clone,
+  aggAllObjects,
+  aggObjects,
+  aggregate,
+  clone,
+  Recipe,
+  recipeCount,
+  template,
+  nodeType,
+  // FIXME: rename this
   mapping: _mapping,
-  Recipe: Recipe,
-  recipeCount: recipeCount,
-  template: template,
-  nodeType: nodeType,
 };
 
 const Config1 = {
-  extend: extend,
+  extend,
+  read,
+  recipe,
+  freeze,
+  ppString,
+  ppConsole,
+  walk,
+  deepEqual,
+  // FIXME: rename these
   new: _new,
-  read: read,
   private: _private,
-  recipe: recipe,
-  freeze: freeze,
-  ppString: ppString,
-  ppConsole: ppConsole,
-  walk: walk,
-  deepEqual: deepEqual,
 };
 
 // C1.seed - The original C1 object, from which all others derive. This is the
