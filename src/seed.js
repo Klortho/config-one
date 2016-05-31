@@ -50,7 +50,11 @@ const clone = function() {
 
 // c1.new(opts) - Create a new c1 object from an existing one, overriding options
 const _new = function(opts) {
+  // FIXME: testing:
   const c1 = this;
+  if (typeof c1 === 'undefined') throw Error('new missing this');
+
+
   const next = clone();
 
   // If no opts were given, use an empty object. This forces the library to
@@ -82,6 +86,10 @@ const cmpType = function(item) {
 };
 
 const deepEqual = (actual, expected) => {
+  // FIXME: testing:
+  const c1 = this;
+  if (typeof c1 === 'undefined') throw Error('deepEqual missing this');
+
   const ta = cmpType(actual),
         tb = cmpType(expected);
   if (ta !== tb) return false;
@@ -149,7 +157,9 @@ const _mapping = function(objects) {
 // first.)
 // If none of the sources resolve to any config data objects, this returns null.
 const read = function(...specs) {
+  // FIXME: testing:
   const c1 = this;
+  if (typeof c1 === 'undefined') throw Error('read missing this');
 
   // Reverse them, to get them into "internal" order
   const rspecs = R.reverse(specs);
@@ -173,14 +183,16 @@ const read = function(...specs) {
 // c1.extend(...configs) - the arguments are config objects, that are merged
 // together in order from defaults to higher-precedence overrides.
 const extend = function(...configs) {
+  // FIXME: testing:
   const c1 = this;
+  if (typeof c1 === 'undefined') throw Error('extend missing this');
 
   // Reverse them, to get them into "internal" order
   const rconfigs = R.reverse(configs);
 
   // If an item is a view, replace it with its original sources
   const getSources = item =>
-    (nodeType(item) === 'view') ? item.__config1__.sources : item;
+    (c1.nodeType(item) === 'view') ? item.__config1__.sources : item;
 
   // If any are views, replace them with their original sources
   const sourceGroups = R.map(getSources, rconfigs);
@@ -283,10 +295,21 @@ const newView = function(root, sources, key, depth) {
 // nodeType - determine the type of a node; one of: atom,
 // object, recipe, or view.
 const nodeType = function(node) {
+  // FIXME: testing:
+  const c1 = this;
+  if (typeof c1 === 'undefined') throw Error('nodeType missing this');
+
+
+
   if (!node || typeof node !== 'object') return 'atom';
 
   // FIXME: experiment making tinycolor an atom
   if (typeof node === 'object' && '_originalInput' in node) return 'atom';
+
+
+
+
+
 
   if (typeof node === 'object' && '__config1__' in node) return 'view';
   if (node instanceof Date) return 'atom';
@@ -308,6 +331,10 @@ var Recipe = function(func) {
 // This is a Recipe factory, it is exposed for use in the source data tree to
 // wrap functions, turning them into recipes.
 var recipe = function(func) {
+  // FIXME: testing:
+  const c1 = this;
+  if (typeof c1 === 'undefined') throw Error('recipe missing this');
+
   recipeCount++;
   return new Recipe(func);
 };
@@ -326,6 +353,11 @@ var recipeCount = 0;
 // FIXME: this is not thoroughly tested yet.
 var freeze = function(cfg) {
   return (function _freeze(cfg, key) {
+    // FIXME: testing:
+    const c1 = this;
+    if (typeof c1 === 'undefined') throw Error('freeze missing this');
+
+
     var t = nodeType(cfg);
     const keystr = (key ? `${key}: ` : '');
     var ret = cfg;
@@ -357,8 +389,12 @@ const ppString = obj =>
   util.inspect(obj, {showHidden: true, depth: null});  
 
 // config object -> print to stdout
-const ppConsole = cfg => {
-  console.log(ppString(freeze(cfg)));
+const ppConsole = function(cfg) {
+  // FIXME: testing:
+  const c1 = this;
+  if (typeof c1 === 'undefined') throw Error('ppConsole missing this');
+
+  console.log(ppString(c1.freeze(cfg)));
 };
 
 
@@ -373,7 +409,6 @@ const _private = {
   Recipe,
   recipeCount,
   template,
-  nodeType,
   // FIXME: rename this
   mapping: _mapping,
 };
@@ -383,6 +418,7 @@ const Config1 = {
   read,
   recipe,
   freeze,
+  nodeType,
   ppString,
   ppConsole,
   walk,
