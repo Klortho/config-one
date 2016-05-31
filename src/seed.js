@@ -8,6 +8,10 @@ const log = require('./log.js')({id: 'root'});
 log.disable();
 
 
+// We can use this symbol to store metadata on objects.
+console.log('c1: defining symbol');
+const c1symbol = Symbol('config-one');
+
 // template - private - This function is copied for new c1 instances. The body
 // of this function implements the main user API.
 const template = function(...args) {
@@ -280,6 +284,10 @@ const newView = function(root, sources, key, depth) {
 // object, recipe, or view.
 const nodeType = function(node) {
   if (!node || typeof node !== 'object') return 'atom';
+
+  // FIXME: experiment making tinycolor an atom
+  if (typeof node === 'object' && '_originalInput' in node) return 'atom';
+
   if (typeof node === 'object' && '__config1__' in node) return 'view';
   if (node instanceof Date) return 'atom';
   // The test for Recipe addresses the concern in this PR (but it's not

@@ -17,6 +17,11 @@ const resolveFrom = base => R.partial(path.resolve, [base]);
 
 module.exports = function() {
   return {
+
+    // Add predicate functions here to tell config1 that certain types of
+    // objects should be treated as atomic.
+    atomTests: [],
+
     configDirEnv: 'CONFIG1_DIR',
 
     configDir: recipe(X=> {
