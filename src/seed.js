@@ -286,7 +286,8 @@ const nodeType = function(node) {
   if (!node || typeof node !== 'object') return 'atom';
 
   // FIXME: experiment making tinycolor an atom
-  if (typeof node === 'object' && '_originalInput' in node) return 'atom';
+  //if (typeof node === 'object' && '_originalInput' in node) return 'atom';
+  if (c1symbol in node && node[c1symbol].atomic) return 'atom';
 
   if (typeof node === 'object' && '__config1__' in node) return 'view';
   if (node instanceof Date) return 'atom';
@@ -379,6 +380,7 @@ const _private = {
 };
 
 const Config1 = {
+  c1symbol,
   extend,
   read,
   recipe,
