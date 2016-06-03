@@ -186,7 +186,10 @@ const extend = function(...configs) {
   const sourceGroups = R.map(getSources, rconfigs);
 
   // Flatten into a single array
-  const sources = R.flatten(sourceGroups);
+  const flat = R.flatten(sourceGroups);
+
+  // Get rid of null and undefineds
+  const sources = R.reject(R.isNil, flat);
 
   // Wrap them in a view
   const root = newView(null, sources, null, 0),
