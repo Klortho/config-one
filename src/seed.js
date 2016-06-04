@@ -9,7 +9,6 @@ log.disable();
 
 
 // We can use this symbol to store metadata on objects.
-console.log('c1: defining symbol');
 const c1symbol = Symbol('config-one');
 
 // template - private - This function is copied for new c1 instances. The body
@@ -219,10 +218,13 @@ const cookAll = function(root, sources) {
 // Sources are in "internal" order: highest precedence first. The source nodes
 // can be of any type: atom, object, recipe, or vnode.
 const newView = function(root, sources, key, depth) {
+  const c1 = this;
   // Cook the recipes, for all of the top-level nodes of each of the sources
   // in the list
   // FIXME: for now, recipes cannot be at the root. I'd like to make that an
   // option. If so, the context will be the c1 object itself.
+  console.log('root: ', root);
+//  const _root = !!root ? root : C1;
   const cooked = root ? cookAll(root, sources) : sources;
 
   // FIXME: Make an option for the user to pass in a validator that gets applied
@@ -356,14 +358,14 @@ var freeze = function(cfg) {
 
 // Pretty-printer
 
-// config object -> string
-const ppString = obj => 
-  util.inspect(obj, {showHidden: true, depth: null});  
-
-// config object -> print to stdout
-const ppConsole = cfg => {
-  console.log(ppString(freeze(cfg)));
+// (label?, obj) -> string
+const pp = (...args) => {
+  const [label, obj] = 
+    args.length === 2 ? [`${args[0]}: `, args[1]]
+                      : ['', args[0]];
+  return label + util.inspect(freeze(obj), {showHidden: true, depth: null});  
 };
+
 
 
 // Prepare exports
@@ -388,12 +390,12 @@ const Config1 = {
   read,
   recipe,
   freeze,
-  ppString,
-  ppConsole,
+  pp,
   walk,
   deepEqual,
   // FIXME: rename these
   new: _new,
+  newView: newView,
   private: _private,
 };
 

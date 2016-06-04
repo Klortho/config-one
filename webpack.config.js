@@ -4,7 +4,7 @@ module.exports = {
   context: __dirname,
   entry: "./src/main.js",
   output: {
-    library: 'config1',
+    library: 'C1',
     libraryTarget: 'var',
     path: __dirname + '/dist',
     filename: 'config1.js',
