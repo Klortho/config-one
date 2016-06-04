@@ -191,7 +191,7 @@ const extend = function(...configs) {
   const sources = R.reject(R.isNil, flat);
 
   // Wrap them in a view
-  const root = newView(null, sources, null, 0),
+  const root = c1.newView(null, sources, null, 0),
         data = root.__config1__;
   data.root = root;
   data.c1 = c1;
@@ -223,9 +223,8 @@ const newView = function(root, sources, key, depth) {
   // in the list
   // FIXME: for now, recipes cannot be at the root. I'd like to make that an
   // option. If so, the context will be the c1 object itself.
-  console.log('root: ', root);
-//  const _root = !!root ? root : C1;
-  const cooked = root ? cookAll(root, sources) : sources;
+  const _root = !!root ? root : c1;
+  const cooked = _root ? cookAll(_root, sources) : sources;
 
   // FIXME: Make an option for the user to pass in a validator that gets applied
   // here. One "canned" validator might be one that 

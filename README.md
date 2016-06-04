@@ -239,18 +239,9 @@ Raymond Hettinger. This was where I first learned of the value of maintaining
 the chain of maps indefinitely, and rather than resolving them, to provide
 a view into them, that looks like a single map to the user.
 
+## Implementation, other notes
 
-## Future enhancements
-
-See [Future enhancements](future.md).
-
-## Implementation
-
-See [Implementation details](implementation.md).
-
-## To do
-
-See [To do list](to-do.md)
+Are at [config-one-project](https://github.com/klortho/config-one).
 
 ## License
 
