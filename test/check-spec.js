@@ -4,7 +4,6 @@
 // This is supposed to be what R.whereEq() does, but it doesn't work on arrays.
 const assert = require('assert');
 
-
 module.exports = function(actual, spec) {
   const log = require('../src/log.js')();
   log.disable();

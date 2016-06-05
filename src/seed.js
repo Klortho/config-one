@@ -99,7 +99,6 @@ const deepEqual = (actual, expected) => {
   return true;
 };
 
-// ✓ has test.
 // Create a new array if it doesn't exist already, and push a value into it.
 const aggregate = function(acc, value) {
   const _acc = acc || [];
@@ -107,7 +106,6 @@ const aggregate = function(acc, value) {
   return _acc;
 };
 
-// ✓ test-low-level
 // For every key in obj, aggregates it with the corresponding value in the
 // accumulator. The accumulator's values are arrays
 const aggObjects = function(acc, obj) {
@@ -177,7 +175,7 @@ const extend = function(...configs) {
   // Reverse them, to get them into "internal" order
   const rconfigs = R.reverse(configs);
 
-  // If an item is a view, replace it with its original sources
+  // Function to get the sources from a view
   const getSources = item =>
     (nodeType(item) === 'view') ? item.__config1__.sources : item;
 

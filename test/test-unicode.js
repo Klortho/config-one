@@ -25,6 +25,13 @@
 // ρ   // greek rho
 // 食  // Chinese shi2 (food)
 // ᴙ  //  U+1D19 LATIN LETTER SMALL CAPITAL REVERSED R
+// ᖇ  // canadian aboriginal
+
+// For "extend":
+// ᙭  // canadian aboriginal
+// ᗕ  // because it looks like it's getting bigger
+// ᗉ  // ditto
+// ᕮ  // looks like "E" for "extend"
 
 // Symbols for their aesthetics
 // ᐸ   // U+1438 CANADIAN SYLLABICS PA
@@ -37,28 +44,28 @@
 //  ᗧ  ᗏ  ᗡ  ᙐ   ᐳ  ᐸ   ᑕ
 
 "use strict";
-const assert = require('assert'),
-      R = require('ramda'),
-      vows = require('vows'),
-      ℂ = require('../src/main.js'),
-      recipe = ℂ.recipe,
-      X = ℂ.extend;
 
-const suite = vows.describe('unicode');
+const assert = require('chai').assert;
+const R = require('ramda');
 
-suite.addBatch({
-  'Test viability of unicode characters as symbols': {
+// unit under test
+const ℂ = require('../src/main.js');
+const recipe = ℂ.recipe;
+const X = ℂ.extend;
 
-    'favorite': function test_favorite() {
+describe('unicode - works with these unicode characters as symbols', 
+  function() {
+
+    it('my favorites', function() {
       var config = X(
         { a: 1,
           b: ℂ(Ɔ=> 5 + Ɔ.a),
         }
       );
       assert.equal(config.b, 6);
-    },
+    });
 
-    'other chars': function test_chars() {
+    it('others', function() {
       // Symbols for recipe
       var [ᗏ, ρ, 食, ᐸ, Ⱉ, ᴙ, ᐧ, ǀ, ᗕ, ᑕ, ᐳ, ᐸ] = R.repeat(ℂ.recipe, 20);
 
@@ -94,7 +101,6 @@ suite.addBatch({
       assert.equal(config.e, 7);
       assert.equal(config.g, 9);
       assert.equal(config.h, 10);
-    },
-  },
-})
-.export(module);
+    });
+  }
+);

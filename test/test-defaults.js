@@ -9,40 +9,31 @@
 
 "use strict";
 
-const assert = require('assert');
+const assert = require('chai').assert;
 const checkSpec = require('./check-spec.js');
 const fs = require('fs');
 const path = require('path');
 const process = require('process');
 const R = require('ramda');
-const vows = require('vows');
 
+// units under test
 const seed = require('../src/seed.js');
 const defaults = require('../src/defaults.js');
 
-var suite = vows.describe('defaults');
-
-suite.addBatch({
-  'Initial config of seed object': {
-
-    'seed does not have default options': function test_seed() {
+describe('defaults', function() {
+  describe('Initial config of seed object', function() {
+    it('seed does not have default options', function () {
       assert(!('basenames' in seed.options), 'seed.options has basenames');
-    },
-  }
-});
+    });
+  });
 
-suite.addBatch({
-  'Default options': {
-    topic: function() {
+  describe('Default options', function() {
+
+    it('has the right default options', function () {
       // Get a fresh new copy of the defaults object
       const defConfig = defaults();
       // Extend it into a config
-      const defView = seed.extend(defConfig);
-      return defView;
-    },
-
-    'default options': function test_defaults(opts) {
-      //console.log('opts: ', opts);
+      const opts = seed.extend(defConfig);
 
       // This spec contains expected values whereever we want to look.
       // We won't test deepEquals, but rather only test where spec has
@@ -106,9 +97,8 @@ suite.addBatch({
       try { fs.accessSync(opts.configDir, fs.F_OK); }
       catch(err) { accessible = false; }
       assert(accessible);
-    },
-  }
+    });
+  });
+
+
 });
-
-suite.export(module);
-
