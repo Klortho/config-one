@@ -199,6 +199,11 @@ var opts = C1.freeze(cfg);
 
 ## Building / development
 
+You can turn on some verbose debugging messages in various places by setting
+the `C1_BUILD_DEBUG` environment variable to "true". This will go away once we
+integrate a real logging framework.
+
+
 ```
 npm install
 npm test
@@ -216,6 +221,160 @@ To generate the browser version dist/config1.js:
 ```
 webpack
 ```
+
+## Testing
+
+This test suite uses mocha, run against files in the test/ subdirectory tree
+that match "test*.js".
+
+Building and running the various combinations of tests and environments is
+controlled by two environment variables:
+
+* `C1_BUILD_UUT` - defaults to 'src'
+* `C1_BUILD_TARGET` - defaults to 'node'
+
+[Note to self:  if any module encounters one of these unset, then it must either:
+
+1. Use the default value above, or
+2. If it is positioned such that it can reset it and be sure all other modules
+  well get the new value (like the webpack config, for example) then it can
+  change the env. variable to a new value.]
+
+A third variable turns on  some verbose messages in places:
+
+* `C1_BUILD_DEBUG`
+
+### node / src
+
+```
+npm test
+```
+
+The `test` script is defined in package.json, and you could run it without
+`npm`, as well:
+
+```
+test/test.sh
+```
+
+That shell script, in turn, is just a thin wrapper around this command:
+
+```
+mocha -R nyan `find ./test -name '*.test.js'`
+```
+
+To run an individual test from the suite, just specify it by filename. For
+example:
+
+```
+mocha -R nyan test/low-level.test.js
+```
+
+
+### node / dist
+
+This mode runs the same suite of tests against the final, bundled library.
+First make sure you build the distribution bundle (with `webpack`) and then,
+to run the tests, either of these will work (they are equivalent):
+
+```
+npm run test-dist
+C1_BUILD_UUT=dist npm test
+```
+
+This invokes the same script as above, test/test.sh, but with the `C1_BUILD_UUT`
+environment variable set to indicate the "unit-under-test".
+
+
+### browser smoke test
+
+This doesn't use mocha, it is just a basic test to make sure the distribution
+bundle is working.
+
+Running this without the webpack-dev-server provides an additional assurance
+that the static library bundle works as a stand-alone, relocatable module.
+
+```
+webpack               #=> builds dist/config1.js
+http-server -p 9000   #=> avoid port conflict with the webpack-dev-server
+```
+
+Then open http://localhost:9000/test/browser-smoke-test.html, and verify that
+you see a green "pass" on the page.
+
+Viewing this smoke test page through the dev server allows it to reflect
+changes to source files on the fly.
+
+```
+webpack-dev-server
+```
+
+Then open http://localhost:8080/test/browser-smoke-test.html (note the port
+number is different from above).
+
+Note that when there are changes to source files, the dev server will 
+automatically rebuild the bundle and serve it from memory at the URL
+path /dist/config1.js. To get the physical file to be rebuilt, you'll still
+need to run the `webpack` command separately.
+
+
+### browser / src
+
+As with a normal web application, there are two main ways of running the Mocha 
+test suite through a browser: with a static bundle (in this case, it's
+a test bundle, that includes the library bundle within it), or by using
+the webpack-dev-server.
+
+To create the static bundle:
+
+```
+webpack --config webpack.test.config.js
+```
+
+Then, start your static web server, and bring up this page (assuming your 
+server is on port 9000): http://localhost:9000/test/test.html.
+
+
+The work with these tests using the dev server:
+
+[***This is the best option for dynamically viewing test results as you develop.
+since this dev server instance will rebuild everything whenever there is any
+change to a library source file or to a test.***]
+
+```
+webpack-dev-server --config webpack.test.config.js
+```
+
+Then bring up http://localhost:8080/test/test.html. (If you want to change the
+dev server port number, you have to do it from the command line.)
+
+
+### browser / dist
+
+This is nearly the same as the previous example. The only difference is that
+the test modules `require` the library from the distribution bundle, rather
+than directly from the sources.
+
+To create the static bundle:
+
+```
+C1_BUILD_UUT=dist webpack --config webpack.test.config.js
+```
+
+Then bring the file up in 
+http://localhost:9000/test/test.html.
+
+To view it through the webpack-dev-server, do the following (but note that this
+does not auto-rebuild when there are changes to the original source files, so
+this setup isn't recommended):
+
+```
+C1_BUILD_UUT=dist webpack-dev-server --config webpack.test.config.js --hot
+```
+
+And then point your browser at http://localhost:8080/test/test.html.
+
+
 
 ## Acknowledgements
 

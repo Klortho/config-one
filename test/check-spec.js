@@ -1,12 +1,23 @@
 // This checks a specification object against a real received object. For
 // every value set in the spec, it will test for equality, and report if there's
 // an error.
-// This is supposed to be what R.whereEq() does, but it doesn't work on arrays.
-const assert = require('assert');
 
-module.exports = function(actual, spec) {
-  const log = require('../src/log.js')();
-  log.disable();
+// This is supposed to be what R.whereEq() does, but it doesn't work on arrays.
+
+// If you want to turn on detailed logging, to get more visibility into where
+// a mismatch occurs (until I get a better scheme), then:
+//
+//     const checkSpec = require('./check-spec.js');
+//     checkSpec.logEnabled = true;
+//     checkSpec(...);
+
+const assert = require('assert');
+const logMaker = require('../src/log.js');
+
+const checkSpec = function(actual, spec) {
+  const log = logMaker();
+  checkSpec.logEnabled ? log.enable() : log.disable();
+
   log.enter('checkSpec');
   check(actual, spec, '');
 
@@ -36,3 +47,7 @@ module.exports = function(actual, spec) {
   }
   log.exit();
 };
+
+checkSpec.logEnabled = false;
+
+module.exports = checkSpec;

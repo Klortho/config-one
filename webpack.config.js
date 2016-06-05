@@ -5,13 +5,14 @@ module.exports = {
   entry: "./src/main.js",
   output: {
     library: 'C1',
-    libraryTarget: 'var',
+    libraryTarget: 'umd',
     path: __dirname + '/dist',
+    // FIXME: this needs to change to 'config-one':
     filename: 'config1.js',
+    publicPath: "/dist/",
   },
   devtool: 'inline-sourcemap',
-  plugins: [
-  ],
+  plugins: [],
 };
 
 // Others we'll probably want:

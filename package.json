@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "find ./test -name 'test-*' | xargs mocha -R nyan",
+    "test": "test/test.sh",
+    "test-dist": "C1_BUILD_UUT=dist test/test.sh",
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
     "prepublish": "npm run build"
   },
@@ -39,7 +40,8 @@
     "mocha": "^2.5.3",
     "mocha-loader": "^0.7.1",
     "semver": "^5.1.0",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
     "ramda": "^0.21.0"

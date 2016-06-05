@@ -1,12 +1,10 @@
 "use strict";
 const path = require('path');
-const process = require('process');
 const R = require('ramda');
 const util = require('util');
 
 const log = require('./log.js')({id: 'root'});
 log.disable();
-
 
 // We can use this symbol to store metadata on objects.
 const c1symbol = Symbol('config-one');

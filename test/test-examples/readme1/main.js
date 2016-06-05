@@ -1,7 +1,6 @@
 // Example from the README
 'use strict';
 const assert = require('assert');
-const process = require('process');
 
 // Need `.new()` here to make sure we get a fresh instance
 const C1 = require('../../../src/main.js').new();

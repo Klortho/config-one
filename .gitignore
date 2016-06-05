@@ -3,3 +3,5 @@
 /.idea/
 /node_modules/
 /try/
+/test-webpack/test-bundle.js
+/tdist/

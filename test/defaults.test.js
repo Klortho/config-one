@@ -8,17 +8,19 @@
 // and produce a view.
 
 "use strict";
+const debug = process.env.C1_BUILD_DEBUG || false;
+const uut = process.env.C1_BUILD_UUT || 'src';
+const target = process.env.C1_BUILD_TARGET || 'node';
+if (debug)
+  console.log('defaults.test.js: uut: ', uut, ', target: ', target);
+
+const seed = require('../src/seed.js');
+const defaults = require('../src/defaults.js');
 
 const assert = require('chai').assert;
 const checkSpec = require('./check-spec.js');
-//const fs = require('fs');
 const path = require('path');
-const process = require('process');
 const R = require('ramda');
-
-// units under test
-const seed = require('../src/seed.js');
-const defaults = require('../src/defaults.js');
 
 describe('defaults', function() {
   describe('Initial config of seed object', function() {
@@ -28,8 +30,8 @@ describe('defaults', function() {
   });
 
   describe('Default options', function() {
-
     it('has the right default options', function () {
+
       // Get a fresh new copy of the defaults object
       const defConfig = defaults();
       // Extend it into a config
@@ -90,6 +92,7 @@ describe('defaults', function() {
         ]
       };
 
+      if (debug) checkSpec.logEnabled = true;
       checkSpec(opts, spec);
 
       assert(path.isAbsolute(opts.configDir));
@@ -100,6 +103,4 @@ describe('defaults', function() {
       //assert(accessible);
     });
   });
-
-
 });

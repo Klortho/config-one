@@ -1,14 +1,14 @@
 // Test basic functionality of the recipes (formerly called "deferreds").
 "use strict";
+const uut = process.env.C1_BUILD_UUT || 'src';
+const target = process.env.C1_BUILD_TARGET || 'node';
+
+const ℂ = require(uut === 'src' ? '../src/main.js' : '../dist/config1.js');
 
 const assert = require('chai').assert;
-
-// units under test
-const ℂ = require('../src/main.js');
 const X = ℂ.extend;
 
 describe('recipes', function() {
-
   it('evaluates recipes late', function() {
     var flag = false;
     const config = X(

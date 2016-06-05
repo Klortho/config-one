@@ -1,12 +1,12 @@
 // Test the default configuration of this library; that it matches what's
 // documented.
 "use strict";
+const uut = process.env.C1_BUILD_UUT || 'src';
+const target = process.env.C1_BUILD_TARGET || 'node';
+
+const ℂ = require(uut === 'src' ? '../src/main.js' : '../dist/config1.js');
 
 const assert = require('chai').assert;
-
-// unit under test
-const ℂ = require('../src/main.js');
-
 
 const obja = {a: 11, b: 12, c: 13};
 const objb = {a: 21, c: 23, d: 24};

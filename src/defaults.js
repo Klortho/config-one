@@ -1,15 +1,13 @@
 // FIXME: When in a browser, defaults will be different (maybe, no defaults)
 "use strict";
-
 const C1 = require('./seed.js');
+const process = require('process');
 const recipe = C1.recipe;
 const R = require('ramda');
-const process = require('process');
 const path = require('path');
 
 const log = require('./log.js')({id: 'root'});
 log.disable();
-
 
 // Given a base directory, returns a function that resolves a path relative
 // to that base
