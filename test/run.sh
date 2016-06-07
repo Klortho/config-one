@@ -5,8 +5,8 @@ C1_BUILD_UUT=${C1_BUILD_UUT:-src}
 C1_BUILD_TARGET=${C1_BUILD_TARGET:-node}
 
 if [ "$C1_BUILD_DEBUG" = "true" ]; then
-  echo "test/test.sh: C1_BUILD_UUT = $C1_BUILD_UUT"
-  echo "test/test.sh: C1_BUILD_TARGET = $C1_BUILD_TARGET"
+  echo "test/run.sh: C1_BUILD_UUT = $C1_BUILD_UUT"
+  echo "test/run.sh: C1_BUILD_TARGET = $C1_BUILD_TARGET"
 fi
 
 if [ "$C1_BUILD_UUT" = "dist" ] && [ ! -f 'dist/config1.js' ]; then
@@ -17,7 +17,7 @@ fi
 
 TEST_FILES=`find ./test -name '*.test.js'`
 if [ "$C1_BUILD_DEBUG" = "true" ]; then
-  echo "test/test.sh: TEST_FILES: $TEST_FILES"
+  echo "test/run.sh: TEST_FILES: $TEST_FILES"
 fi
 
 mocha -R nyan $TEST_FILES

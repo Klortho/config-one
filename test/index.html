@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mocha</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+  </head>
+  <body>
+    <p>Question: can I get both `src` and `dist` test reports here on the 
+      same page? How about two iframes?</p>
+
+
+    <h2>src tests</h2>
+    <iframe id="src-test" src="about:blank"></iframe>
+
+    <h2>dist tests</h2>
+    <iframe id="dist-test" src="about:blank"></iframe>
+
+
+
+    <script>
+      var doc = document.getElementById('src-test').contentWindow.document;
+      doc.open();
+      doc.write(
+        '<html><head><title></title></head><body>' +
+        '<script src="../build-' + 'src' + '/test-bundle.js">' +
+        '</' + 'scri' + 'pt></body></html>'
+      );
+      doc.close();
+    </script>
+
+    
+  </body>
+</html>

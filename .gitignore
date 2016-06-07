@@ -1,7 +1,5 @@
-*-cfm.md
 /dist/
 /.idea/
 /node_modules/
-/try/
-/test-webpack/test-bundle.js
-/tdist/
+/build-src/
+/build-dist/

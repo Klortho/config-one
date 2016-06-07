@@ -18,14 +18,15 @@ const target = process.env.C1_BUILD_TARGET;
 if (debug)
   console.log('webpack.test.config.js: uut: ', uut, ', target: ', target);
 
+const outputPath = __dirname + '/build-' + uut;
 
 module.exports = {
   context: __dirname,
   entry: 'mocha!./test/index.js',
   output: {
-    path: __dirname + '/tdist',
-    filename: 'tbundle.js',
-    publicPath: "/tdist/",
+    path: outputPath,
+    filename: 'test-bundle.js',
+    publicPath: outputPath,
   },
   devtool: 'inline-sourcemap',
   plugins: [
