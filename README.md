@@ -328,7 +328,7 @@ the webpack-dev-server.
 To create the static bundle:
 
 ```
-webpack --config webpack.test.config.js
+webpack --config test/webpack.test.config.js
 ```
 
 Then, start your static web server, and bring up this page (assuming your 
