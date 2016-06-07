@@ -44,10 +44,11 @@
 //  ᗧ  ᗏ  ᗡ  ᙐ   ᐳ  ᐸ   ᑕ
 
 "use strict";
-const uut = process.env.C1_BUILD_UUT || 'src';
-const target = process.env.C1_BUILD_TARGET || 'node';
-
-const ℂ = require(uut === 'src' ? '../src/main.js' : '../dist/config1.js');
+"use strict";
+const uut = require('../resolve-uut.js');
+const debug = uut.debug;
+const ℂ = uut.require();
+console.log('uut.require: ', uut.require);
 
 const assert = require('chai').assert;
 const R = require('ramda');

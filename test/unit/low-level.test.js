@@ -1,10 +1,10 @@
 // Unit tests of the low-level level implementation functions within the 
 // module
 "use strict";
-const uut = process.env.C1_BUILD_UUT || 'src';
-const target = process.env.C1_BUILD_TARGET || 'node';
-
-const ℂ = require(uut === 'src' ? '../src/main.js' : '../dist/config1.js');
+const uut = require('../resolve-uut.js');
+const debug = uut.debug;
+const ℂ = uut.require();
+console.log('uut.require: ', uut.require);
 
 module.exports = (function () {
   const assert = require('chai').assert;

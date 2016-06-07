@@ -1,16 +1,20 @@
 // Test the default configuration of this library; that it matches what's
 // documented.
 "use strict";
-const uut = process.env.C1_BUILD_UUT || 'src';
+const uut = require('../resolve-uut.js');
+const debug = uut.debug;
+const ℂ = uut.require();
+console.log('uut.require: ', uut.require);
+
 const target = process.env.C1_BUILD_TARGET || 'node';
 
 // FIXME: this *must* be made to work with node and webpack -- it's central 
 // functionality! The problem is that right now I'm using `require` to read
 // in external JS config files, and webpack clobbers them.
 
-if (uut === 'src' && target === 'node') {
-
-  const ℂ = require(uut === 'src' ? '../src/main.js' : '../dist/config1.js');
+if (uut.key === 'src' && target === 'node') {
+  const packageDir = '../..';
+  const ℂ = uut.require();
 
   const assert = require('chai').assert;
   const path = require('path');

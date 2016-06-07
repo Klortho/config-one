@@ -1,5 +1,6 @@
 #!/bin/bash
 # This is run from `npm run`, so current working directory is the project root.
+# 
 
 UUT=${C1_BUILD_UUT:-src}
 TARGET=${C1_BUILD_TARGET:-node}
@@ -23,9 +24,9 @@ if [ "$DEBUG" = "true" ]; then
 fi
 
 # Using the mochawesome reporter.
-OUTDIR="build-$UUT"
+REPORT_DIR="test/reports/$UUT"
 mocha -R mochawesome --reporter-options \
-  "reportDir=$OUTDIR,reportName=test-report.html" $TEST_FILES
+  "reportDir=$REPORT_DIR,reportName=test-report.html" $TEST_FILES
 
 # Another great reporter (console):
 #mocha -R nyan $TEST_FILES

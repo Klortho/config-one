@@ -2,10 +2,14 @@
 // documented.
 "use strict";
 
-module.exports = function (ℂ) {
-  var assert = require('chai').assert;
-  const R = require('ramda');
+const uut = require('../resolve-uut.js');
+const debug = uut.debug;
+const ℂ = uut.require();
+console.log('uut.require: ', uut.require);
 
+module.exports = (function (ℂ) {
+  const assert = require('chai').assert;
+  const R = require('ramda');
   const X = ℂ.extend;
 
   // This version of extend takes an array instead of variable # of args
@@ -61,5 +65,4 @@ module.exports = function (ℂ) {
       assert.deepEqual(config012_b, merged012);
     });
   });
-
-}
+})();
