@@ -11,5 +11,5 @@ const defaults = require('./defaults.js')();
 
 seed.private.defaults = defaults;
 
-const config1 = seed.new(defaults);
-module.exports = config1;
+const C1 = seed.new(defaults);
+module.exports = C1;

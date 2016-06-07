@@ -216,7 +216,7 @@ Outputs are written to "dist".
 npm run build
 ```
 
-To generate the browser version dist/config1.js:
+To generate the browser version dist/config-one.js:
 
 ```
 webpack
@@ -295,7 +295,7 @@ Running this without the webpack-dev-server provides an additional assurance
 that the static library bundle works as a stand-alone, relocatable module.
 
 ```
-webpack               #=> builds dist/config1.js
+webpack               #=> builds dist/config-one.js
 http-server -p 9000   #=> avoid port conflict with the webpack-dev-server
 ```
 
@@ -314,7 +314,7 @@ number is different from above).
 
 Note that when there are changes to source files, the dev server will 
 automatically rebuild the bundle and serve it from memory at the URL
-path /dist/config1.js. To get the physical file to be rebuilt, you'll still
+path /dist/config-one.js. To get the physical file to be rebuilt, you'll still
 need to run the `webpack` command separately.
 
 

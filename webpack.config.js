@@ -8,7 +8,7 @@ module.exports = {
     libraryTarget: 'umd',
     path: __dirname + '/dist',
     // FIXME: this needs to change to 'config-one':
-    filename: 'config1.js',
+    filename: 'config-one.js',
     publicPath: "/dist/",
   },
   devtool: 'inline-sourcemap',

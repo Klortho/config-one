@@ -11,7 +11,7 @@ if [ "$DEBUG" = "true" ]; then
   echo "test/run.sh: C1_BUILD_TARGET = $TARGET"
 fi
 
-DIST_BUNDLE='dist/config1.js'
+DIST_BUNDLE='dist/config-one.js'
 if [ "$UUT" = "dist" ] && [ ! -f $DIST_BUNDLE ]; then
   echo "Did you forget to build the distribution bundle first?"
   echo "It should be in $DIST_BUNDLE."

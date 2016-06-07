@@ -17,7 +17,7 @@ const specs = {
   },
   dist: {
     dir: 'dist',
-    main: 'config1.js',
+    main: 'config-one.js',
   }
 };
 
