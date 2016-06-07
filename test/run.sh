@@ -2,13 +2,13 @@
 # This is run from `npm run`, so current working directory is the project root.
 # 
 
-UUT=${C1_BUILD_UUT:-src}
-TARGET=${C1_BUILD_TARGET:-node}
-DEBUG=${C1_BUILD_DEBUG:-false}
+UUT=${C1_UUT:-src}
+TARGET=${C1_TARGET:-node}
+DEBUG=${C1_DEBUG:-false}
 
 if [ "$DEBUG" = "true" ]; then
-  echo "test/run.sh: C1_BUILD_UUT = $UUT"
-  echo "test/run.sh: C1_BUILD_TARGET = $TARGET"
+  echo "test/run.sh: C1_UUT = $UUT"
+  echo "test/run.sh: C1_TARGET = $TARGET"
 fi
 
 DIST_BUNDLE='dist/config-one.js'

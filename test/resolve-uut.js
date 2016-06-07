@@ -24,10 +24,10 @@ const specs = {
 const debug = (process.env.C1_DEBUG === 'true');
 const join = require('path').join;
 const packageRoot = join(__dirname, '..');  // absolute path
-const uut = process.env.C1_BUILD_UUT || 'src';
+const uut = process.env.C1_UUT || 'src';
 
 if (!uut in specs) throw RangeError(
-  'Unrecognized value for environment variable C1_BUILD_UUT');
+  'Unrecognized value for environment variable C1_UUT');
 
 const spec = specs[uut];
 const dirPath = join(packageRoot, spec.dir);

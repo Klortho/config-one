@@ -5,16 +5,16 @@
 const path = require('path');
 const webpack = require('webpack');
 
-// If the environment variables C1_BUILD_UUT and/or C1_BUILD_TARGET aren't set, then
+// If the environment variables C1_UUT and/or C1_TARGET aren't set, then
 // this sets them to default values for the duration of this build:
-// - C1_BUILD_UUT: src
-// - C1_BUILD_TARGET: browser
+// - C1_UUT: src
+// - C1_TARGET: browser
 
-if (!process.env.C1_BUILD_UUT) process.env.C1_BUILD_UUT = 'src';
-if (!process.env.C1_BUILD_TARGET) process.env.C1_BUILD_TARGET = 'browser';
-const debug = process.env.C1_BUILD_DEBUG || false;
-const uut = process.env.C1_BUILD_UUT;
-const target = process.env.C1_BUILD_TARGET;
+if (!process.env.C1_UUT) process.env.C1_UUT = 'src';
+if (!process.env.C1_TARGET) process.env.C1_TARGET = 'browser';
+const debug = process.env.C1_DEBUG || false;
+const uut = process.env.C1_UUT;
+const target = process.env.C1_TARGET;
 if (debug)
   console.log('webpack.test.config.js: uut: ', uut, ', target: ', target);
 
@@ -39,17 +39,17 @@ module.exports = {
     (function() {
       return new webpack.DefinePlugin({
        'CONFIG_ONE_ENV': {
-          'C1_BUILD_UUT': `"${uut}"`,
-          'C1_BUILD_TARGET': `"${target}"`,
+          'C1_UUT': `"${uut}"`,
+          'C1_TARGET': `"${target}"`,
         }
       });
     })(),
   */
 
     new webpack.EnvironmentPlugin([
-      'C1_BUILD_DEBUG',
-      'C1_BUILD_UUT',
-      'C1_BUILD_TARGET',
+      'C1_DEBUG',
+      'C1_UUT',
+      'C1_TARGET',
     ])
   ],
 };

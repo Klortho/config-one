@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "C1_BUILD_UUT=src test/run.sh",
-    "test-dist": "C1_BUILD_UUT=dist test/run.sh",
+    "test": "C1_UUT=src test/run.sh",
+    "test-dist": "C1_UUT=dist test/run.sh",
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
     "prepublish": "npm run build"
   },

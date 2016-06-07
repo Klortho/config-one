@@ -200,7 +200,7 @@ var opts = C1.freeze(cfg);
 ## Building / development
 
 You can turn on some verbose debugging messages in various places by setting
-the `C1_BUILD_DEBUG` environment variable to "true". This will go away once we
+the `C1_DEBUG` environment variable to "true". This will go away once we
 integrate a real logging framework.
 
 
@@ -230,8 +230,8 @@ that match "test*.js".
 Building and running the various combinations of tests and environments is
 controlled by two environment variables:
 
-* `C1_BUILD_UUT` - defaults to 'src'
-* `C1_BUILD_TARGET` - defaults to 'node'
+* `C1_UUT` - defaults to 'src'
+* `C1_TARGET` - defaults to 'node'
 
 [Note to self:  if any module encounters one of these unset, then it must either:
 
@@ -242,7 +242,7 @@ controlled by two environment variables:
 
 A third variable turns on  some verbose messages in places:
 
-* `C1_BUILD_DEBUG`
+* `C1_DEBUG`
 
 ### node / src
 
@@ -279,10 +279,10 @@ to run the tests, either of these will work (they are equivalent):
 
 ```
 npm run test-dist
-C1_BUILD_UUT=dist npm test
+C1_UUT=dist npm test
 ```
 
-This invokes the same script as above, test/test.sh, but with the `C1_BUILD_UUT`
+This invokes the same script as above, test/test.sh, but with the `C1_UUT`
 environment variable set to indicate the "unit-under-test".
 
 
@@ -358,7 +358,7 @@ than directly from the sources.
 To create the static bundle:
 
 ```
-C1_BUILD_UUT=dist webpack --config webpack.test.config.js
+C1_UUT=dist webpack --config webpack.test.config.js
 ```
 
 Then bring the file up in 
@@ -369,7 +369,7 @@ does not auto-rebuild when there are changes to the original source files, so
 this setup isn't recommended):
 
 ```
-C1_BUILD_UUT=dist webpack-dev-server --config webpack.test.config.js --hot
+C1_UUT=dist webpack-dev-server --config webpack.test.config.js --hot
 ```
 
 And then point your browser at http://localhost:8080/test/test.html.

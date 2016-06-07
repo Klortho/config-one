@@ -8,7 +8,7 @@ const ℂ = uut.require();
 if (debug) console.log(
   '---------------------------- read -----------------------------');
 
-const target = process.env.C1_BUILD_TARGET || 'node';
+const target = process.env.C1_TARGET || 'node';
 
 // FIXME: this *must* be made to work with node and webpack -- it's central 
 // functionality! The problem is that right now I'm using `require` to read

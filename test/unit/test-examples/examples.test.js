@@ -6,7 +6,7 @@ const ℂ = uut.require();
 if (debug) console.log(
   '---------------------------- examples -----------------------------');
 
-const target = process.env.C1_BUILD_TARGET || 'node';
+const target = process.env.C1_TARGET || 'node';
 
 if (target === 'node') {
   const ℂ = uut.require();

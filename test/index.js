@@ -6,9 +6,9 @@
 // through the EnvironmentPlugin. Default values come from
 // webpack.test.config.js.
 
-const debug = process.env.C1_BUILD_DEBUG || false;
-const uut = process.env.C1_BUILD_UUT || 'src';
-const target = process.env.C1_BUILD_TARGET || 'node';
+const debug = process.env.C1_DEBUG || false;
+const uut = process.env.C1_UUT || 'src';
+const target = process.env.C1_TARGET || 'node';
 if (debug)
   console.log('test/index.js: uut: ', uut, ', target: ', target);
 
