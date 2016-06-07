@@ -1,23 +1,31 @@
 #!/bin/bash
 # This is run from `npm run`, so current working directory is the project root.
 
-C1_BUILD_UUT=${C1_BUILD_UUT:-src}
-C1_BUILD_TARGET=${C1_BUILD_TARGET:-node}
+UUT=${C1_BUILD_UUT:-src}
+TARGET=${C1_BUILD_TARGET:-node}
+DEBUG=${C1_BUILD_DEBUG:-false}
 
-if [ "$C1_BUILD_DEBUG" = "true" ]; then
-  echo "test/run.sh: C1_BUILD_UUT = $C1_BUILD_UUT"
-  echo "test/run.sh: C1_BUILD_TARGET = $C1_BUILD_TARGET"
+if [ "$DEBUG" = "true" ]; then
+  echo "test/run.sh: C1_BUILD_UUT = $UUT"
+  echo "test/run.sh: C1_BUILD_TARGET = $TARGET"
 fi
 
-if [ "$C1_BUILD_UUT" = "dist" ] && [ ! -f 'dist/config1.js' ]; then
-  echo Did you forget to build the distribution bundle first?
-  echo It should be in dist/config1.json.
+DIST_BUNDLE='dist/config1.js'
+if [ "$UUT" = "dist" ] && [ ! -f $DIST_BUNDLE ]; then
+  echo "Did you forget to build the distribution bundle first?"
+  echo "It should be in $DIST_BUNDLE."
   exit 1
 fi
 
 TEST_FILES=`find ./test -name '*.test.js'`
-if [ "$C1_BUILD_DEBUG" = "true" ]; then
+if [ "$DEBUG" = "true" ]; then
   echo "test/run.sh: TEST_FILES: $TEST_FILES"
 fi
 
-mocha -R nyan $TEST_FILES
+# Using the mochawesome reporter.
+OUTDIR="build-$UUT"
+mocha -R mochawesome --reporter-options \
+  "reportDir=$OUTDIR,reportName=test-report.html" $TEST_FILES
+
+# Another great reporter (console):
+#mocha -R nyan $TEST_FILES
