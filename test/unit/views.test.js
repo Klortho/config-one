@@ -2,7 +2,12 @@
 // documented.
 "use strict";
 
-const ℂ = require('./resolve-uut.js');
+const uut = require('../resolve-uut.js');
+const debug = uut.debug;
+const ℂ = uut.require();
+if (debug) console.log(
+  '---------------------------- views -----------------------------');
+
 const assert = require('chai').assert;
 
 const obja = {a: 11, b: 12, c: 13};
@@ -134,3 +139,6 @@ describe('views - creating views', function() {
     assert.deepEqual(view, exp);
   });
 });
+
+if (debug) console.log(
+  '-------------------------- done views.test.js --------------------');

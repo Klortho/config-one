@@ -7,12 +7,15 @@
 // object, including recipes. Then, C1.extend() is called to resolve those
 // and produce a view.
 
+// These tests only run when uut == `src`.
+
 "use strict";
 const join = require('path').join;
 const uut = require('../resolve-uut.js');
 const debug = uut.debug;
 
-// These tests only run when uut == `src`.
+if (debug) console.log(
+  '---------------------------- defaults -----------------------------');
 
 if (uut.key === 'src') {
   const seed = require(join(uut.dirPath, 'seed.js'));
@@ -106,3 +109,7 @@ if (uut.key === 'src') {
     });
   });
 }
+
+if (debug) console.log(
+  '-------------------------- done defaults.test.js --------------------');
+

@@ -1,14 +1,19 @@
 // Test examples from the docs.
 "use strict";
-const uut = process.env.C1_BUILD_UUT || 'src';
+const uut = require('../../resolve-uut.js');
+const debug = uut.debug;
+const ℂ = uut.require();
+if (debug) console.log(
+  '---------------------------- examples -----------------------------');
+
 const target = process.env.C1_BUILD_TARGET || 'node';
 
 if (target === 'node') {
-  const ℂ = require(uut === 'src' ? '../../src/main.js' : '../../dist/config1.js');
+  const ℂ = uut.require();
 
   const assert = require('chai').assert;
   const path = require('path');
-  const checkSpec = require('../check-spec.js');
+  const checkSpec = require('../../check-spec.js');
 
   // Make sure these are execute sequentially
   var test1_done = false;

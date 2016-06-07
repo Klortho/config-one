@@ -48,7 +48,9 @@
 const uut = require('../resolve-uut.js');
 const debug = uut.debug;
 const ℂ = uut.require();
-console.log('uut.require: ', uut.require);
+
+if (debug) console.log(
+  '---------------------------- unicode -----------------------------');
 
 const assert = require('chai').assert;
 const R = require('ramda');
@@ -108,3 +110,5 @@ describe('unicode - works with these unicode characters as symbols',
     });
   }
 );
+if (debug) console.log(
+  '-------------------------- done unicode.test.js --------------------');

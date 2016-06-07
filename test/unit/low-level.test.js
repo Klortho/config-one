@@ -4,7 +4,9 @@
 const uut = require('../resolve-uut.js');
 const debug = uut.debug;
 const ℂ = uut.require();
-console.log('uut.require: ', uut.require);
+
+if (debug) console.log(
+  '---------------------------- low-level -----------------------------');
 
 module.exports = (function () {
   const assert = require('chai').assert;
@@ -64,3 +66,5 @@ module.exports = (function () {
     });
   });
 })();
+if (debug) console.log(
+  '-------------------------- done low-level --------------------');

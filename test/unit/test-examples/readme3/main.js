@@ -3,7 +3,7 @@
 const assert = require('assert');
 
 // Need `.new()` here to make sure we get a fresh instance
-var C1 = require('../../../src/main.js').new();
+var C1 = require('../../../../src/main.js').new();
 var cfg = C1();
 
 // nothing to see here

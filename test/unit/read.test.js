@@ -4,7 +4,9 @@
 const uut = require('../resolve-uut.js');
 const debug = uut.debug;
 const ℂ = uut.require();
-console.log('uut.require: ', uut.require);
+
+if (debug) console.log(
+  '---------------------------- read -----------------------------');
 
 const target = process.env.C1_BUILD_TARGET || 'node';
 
@@ -13,7 +15,6 @@ const target = process.env.C1_BUILD_TARGET || 'node';
 // in external JS config files, and webpack clobbers them.
 
 if (uut.key === 'src' && target === 'node') {
-  const packageDir = '../..';
   const ℂ = uut.require();
 
   const assert = require('chai').assert;
@@ -22,16 +23,20 @@ if (uut.key === 'src' && target === 'node') {
   const util = require('util');
 
   // Helper functions
-  const checkSpec = require('./check-spec.js');
+  const checkSpec = require('../check-spec.js');
   assert.isDefined(checkSpec);
 
   const absPath = R.partial(path.resolve, [__dirname]);
 
   // filename -> source spec
-  const spec = filename => ({
-    type: 'file',
-    pathname: absPath('read-files/' + filename)
-  });
+  const spec = filename => {
+    const s = {
+      type: 'file',
+      pathname: absPath('read-files/' + filename)
+    };
+    return s;
+  };
+
 
   // [filenames] -> [source specs]
   const specs = R.map(spec);
@@ -202,5 +207,7 @@ if (uut.key === 'src' && target === 'node') {
       );
     });
   });
-
 }
+
+if (debug) console.log(
+  '-------------------------- done read.test.js --------------------');

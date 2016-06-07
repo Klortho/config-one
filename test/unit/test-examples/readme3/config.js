@@ -1,6 +1,6 @@
 // Interestingly, this C1 doesn't have to be the exact C1 being used by
 // main.js, since we're only using it for the .recipe method.
-var C1 = require('../../../src/main.js');
+var C1 = require('../../../../src/main.js');
 
 var semver = require('semver');
 

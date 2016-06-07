@@ -1,4 +1,4 @@
-const ℂ = require('../../src/main.js');
+const ℂ = require('../../../src/main.js');
 
 module.exports = {
   ver: '1.0.0',
