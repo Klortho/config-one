@@ -3,6 +3,8 @@
 // of the nodejs-based suite.
 
 document.addEventListener("DOMContentLoaded", function(event) { 
+  if (!('C1' in window)) throw Error('Global `C1` variable is not defined. Did ' +
+    'you remember to build the distribution bundle?')
   const ℂ = window.C1;
   const nodeType = ℂ.private.nodeType;
   const deepEqual = ℂ.deepEqual;
@@ -47,5 +49,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   );
 
   document.getElementById('pass').innerHTML = 'pass';
+  document.getElementById('fail').innerHTML = '';
 });
 

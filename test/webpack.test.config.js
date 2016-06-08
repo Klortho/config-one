@@ -18,34 +18,18 @@ const target = process.env.C1_TARGET;
 if (debug)
   console.log('webpack.test.config.js: uut: ', uut, ', target: ', target);
 
-const outputPath = __dirname + '/build-' + uut;
+const outputPath = path.join(__dirname, 'build');
 
 module.exports = {
   context: __dirname,
-  entry: 'mocha!./test/index.js',
+  entry: 'mocha!./index.js',
   output: {
     path: outputPath,
-    filename: 'test-bundle.js',
+    filename: `test-bundle-${uut}.js`,
     publicPath: outputPath,
   },
   devtool: 'inline-sourcemap',
   plugins: [
-  /*
-    // FIXME: I don't think we'll need this anymore.
-    // We need to pass environment information into our modules. We could use
-    // EnvironmentPlugin, but it clobbers the Node.js global process object,
-    // and we want our bundle to be usable both on browsers and in Node.js.
-    // So, we're using the DefinePlugin with a custom variable.
-    (function() {
-      return new webpack.DefinePlugin({
-       'CONFIG_ONE_ENV': {
-          'C1_UUT': `"${uut}"`,
-          'C1_TARGET': `"${target}"`,
-        }
-      });
-    })(),
-  */
-
     new webpack.EnvironmentPlugin([
       'C1_DEBUG',
       'C1_UUT',

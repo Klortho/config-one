@@ -24,9 +24,9 @@ if [ "$DEBUG" = "true" ]; then
 fi
 
 # Using the mochawesome reporter.
-REPORT_DIR="test/reports/$UUT"
+#REPORT_DIR="test/reports/$UUT"
 mocha -R mochawesome --reporter-options \
   "reportDir=$REPORT_DIR,reportName=test-report" $TEST_FILES
 
-# Another great reporter (console):
+## Another great reporter (console):
 #mocha -R nyan $TEST_FILES

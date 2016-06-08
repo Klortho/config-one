@@ -203,29 +203,41 @@ You can turn on some verbose debugging messages in various places by setting
 the `C1_DEBUG` environment variable to "true". This will go away once we
 integrate a real logging framework.
 
+To install all the needed dependencies:
 
 ```
 npm install
+```
+
+Run unit tests against the original source files with:
+
+```
 npm test
 ```
 
-To compile all the ES6 into more portable ES5, using babel, use the following.
-Outputs are written to "dist".
+To compile all the ES2015 (also known as EcmaScript 6) into more portable ES5, 
+invoke `babel` with:
+
+
+[FIXME: when Babel is integrated with webpack, we should probably do away with 
+this step.]
 
 ```
-npm run build
+npm run build     #=> outputs are written to build/
 ```
 
-To generate the browser version dist/config-one.js:
+To generate the main cross-platform distribution bundle:
 
 ```
-webpack
+webpack        #=> dist/config-one.js:
 ```
+
+If that works without any problems, the proceed to the next section on testing.
 
 ## Testing
 
-This test suite uses mocha, run against files in the test/ subdirectory tree
-that match "test*.js".
+This test suite uses mocha/chai, run against files in the test/unit subdirectory 
+tree that match ".test*.js".
 
 Building and running the various combinations of tests and environments is
 controlled by two environment variables:
@@ -233,96 +245,98 @@ controlled by two environment variables:
 * `C1_UUT` - defaults to 'src'
 * `C1_TARGET` - defaults to 'node'
 
-[Note to self:  if any module encounters one of these unset, then it must either:
+[FIXME: I don't thing `TARGET` actually makes sense here, since we should be
+gettig a single "UMD" bunde.]
 
-1. Use the default value above, or
-2. If it is positioned such that it can reset it and be sure all other modules
-  well get the new value (like the webpack config, for example) then it can
-  change the env. variable to a new value.]
-
-A third variable turns on  some verbose messages in places:
+A third variable can but used to turn on some verbose messages in places:
 
 * `C1_DEBUG`
 
-### node / src
+
+### Node.js platform, testing "src"
 
 ```
-npm test
+npm run
 ```
 
-The `test` script is defined in package.json, and you could run it without
-`npm`, as well:
+The `test` script is defined in package.json, and you could run it manually,
+without `npm`, if you need to:
 
 ```
-test/test.sh
+test/run.sh
 ```
 
 That shell script, in turn, is just a thin wrapper around this command:
 
 ```
-mocha -R nyan `find ./test -name '*.test.js'`
+mocha -R mochawesome --reporter-options \
+  "reportDir=$REPORT_DIR,reportName=test-report" $TEST_FILES
 ```
+
+In addition to reporting the test status on the console, this also produces a 
+very informative HTML report at test/reports/src/test-report.html.
 
 To run an individual test from the suite, just specify it by filename. For
 example:
 
 ```
-mocha -R nyan test/low-level.test.js
+mocha test/unit/low-level.test.js
 ```
 
-
-### node / dist
+### Node.js platform, testing "dist"
 
 This mode runs the same suite of tests against the final, bundled library.
 First make sure you build the distribution bundle (with `webpack`) and then,
-to run the tests, either of these will work (they are equivalent):
+to run the tests:
 
 ```
 npm run test-dist
-C1_UUT=dist npm test
 ```
 
 This invokes the same script as above, test/test.sh, but with the `C1_UUT`
-environment variable set to indicate the "unit-under-test".
+environment variable set to "dist".
 
 
-### browser smoke test
+### Browser smoke test
 
-This doesn't use mocha, it is just a basic test to make sure the distribution
-bundle is working.
+This doesn't use mocha, and doesn't run extensive unit testing. It is just a 
+basic test to ensure that the distribution bundle can run in whatever browser
+you use.
 
-Running this without the webpack-dev-server provides an additional assurance
-that the static library bundle works as a stand-alone, relocatable module.
+Running this without using any runtime webpack components (such as the 
+webpack-dev-server), provides an additional assurance that the bundle can
+be distributed.
+
+To use it, make sure the distribution bundle has been build, then start a
+static server, with, for example:
 
 ```
-webpack               #=> builds dist/config-one.js
-http-server -p 9000   #=> avoid port conflict with the webpack-dev-server
+http-server -p 9000
 ```
 
-Then open http://localhost:9000/test/browser-smoke-test.html, and verify that
-you see a green "pass" on the page.
+Then open http://localhost:9000/test/smoke/browser-test.html, and verify that
+you see a green "pass" indication on the page.
 
-Viewing this smoke test page through the dev server allows it to reflect
-changes to source files on the fly.
+Viewing this smoke test page through the dev server allows it to update 
+dynamically with every change to a source file.
 
 ```
 webpack-dev-server
 ```
 
-Then open http://localhost:8080/test/browser-smoke-test.html (note the port
-number is different from above).
+Then open http://localhost:8080/test/browser-smoke-test.html. (Note the port
+number is different!)
 
-Note that when there are changes to source files, the dev server will 
+When there are changes to source files, the dev server will 
 automatically rebuild the bundle and serve it from memory at the URL
-path /dist/config-one.js. To get the physical file to be rebuilt, you'll still
-need to run the `webpack` command separately.
+path /dist/config-one.js. 
 
 
 ### browser / src
 
 As with a normal web application, there are two main ways of running the Mocha 
 test suite through a browser: with a static bundle (in this case, it's
-a test bundle, that includes the library bundle within it), or by using
+a test bundle, that includes the library code bundle within it), or by using
 the webpack-dev-server.
 
 To create the static bundle:
