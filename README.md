@@ -232,12 +232,49 @@ To generate the main cross-platform distribution bundle:
 webpack        #=> dist/config-one.js:
 ```
 
-If that works without any problems, the proceed to the next section on testing.
+The next sections give reference information and some how-tos
+
+## Directory and file conventions
+
+The directory structure of this app looks like the following. This list is
+annotated with some rationale information.
+
+```
+/
+  package.json
+  webpack.config.js
+  ...
+  src/
+  dist/  - just for final distribution packages
+  test/
+    ✓run.sh - just runs the mocha tests without bundling - this is currently
+        test.sh. It is what is invoked by the `npm test` scripts.
+    ✓index.html  - driver for the mocha tests in the browser, the main JS
+        this invokes are ../build-{src|dest}/test-bundle.js.
+    webpack.test.config.js
+    check-spec.js  - and any other utility modules
+
+    unit/         - sources for the unit tests
+        main.js   - currently this is test/index.js
+        <name>.test.js
+        ...
+    smoke/
+        browser-test.html
+        browser-test.js
+    build/      - test bundles
+        test-bundle-src.js
+        test-bundle-dist.js
+    reports/
+        src/    - separate destination for each unit-under-test
+        dist/
+```
+
+
 
 ## Testing
 
-This test suite uses mocha/chai, run against files in the test/unit subdirectory 
-tree that match ".test*.js".
+The unit test scripts use mocha/chai, and are in the test/unit/ subdirectory,
+with names that end with ".test.js".
 
 Building and running the various combinations of tests and environments is
 controlled by two environment variables:
@@ -245,18 +282,21 @@ controlled by two environment variables:
 * `C1_UUT` - defaults to 'src'
 * `C1_TARGET` - defaults to 'node'
 
-[FIXME: I don't thing `TARGET` actually makes sense here, since we should be
-gettig a single "UMD" bunde.]
+[FIXME: I don't thing `TARGET` actually makes sense here, since we are 
+producing a single "UMD" bunde that runs anywhere.]
 
 A third variable can but used to turn on some verbose messages in places:
 
 * `C1_DEBUG`
 
 
-### Node.js platform, testing "src"
+### Testing sources: $C1_UUT = "src"
+
+As describe above, to run the unit tests against the original source files, 
+from the command line, just enter
 
 ```
-npm run
+npm test
 ```
 
 The `test` script is defined in package.json, and you could run it manually,

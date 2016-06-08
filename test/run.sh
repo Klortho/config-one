@@ -19,14 +19,14 @@ if [ "$UUT" = "dist" ] && [ ! -f $DIST_BUNDLE ]; then
 fi
 
 TEST_FILES=`find ./test -name '*.test.js'`
-if [ "$DEBUG" = "true" ]; then
-  echo "test/run.sh: TEST_FILES: $TEST_FILES"
-fi
+#if [ "$DEBUG" = "true" ]; then
+  echo "test/run.sh: Running tests on these sources: $TEST_FILES"
+#fi
 
 # Using the mochawesome reporter.
-#REPORT_DIR="test/reports/$UUT"
+REPORT_DIR="test/reports/$UUT"
 mocha -R mochawesome --reporter-options \
-  "reportDir=$REPORT_DIR,reportName=test-report" $TEST_FILES
+  "$REPORT_DIR=test/reports/src,reportName=test-report" $TEST_FILES
 
 ## Another great reporter (console):
 #mocha -R nyan $TEST_FILES
