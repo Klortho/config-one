@@ -299,8 +299,9 @@ from the command line, just enter
 npm test
 ```
 
-The `test` script is defined in package.json, and you could run it manually,
-without `npm`, if you need to:
+The `test` script command line is defined in package.json. It invokes the 
+bash shell script test/run.sh. You can run it 
+manually, without `npm`, if you need to:
 
 ```
 test/run.sh
