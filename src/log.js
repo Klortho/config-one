@@ -7,14 +7,14 @@
 //   log.enter('starting');
 //   ...
 //   log('another message');
-//   log.exit();  
+//   log.exit();
 
 const logs = {};
 
 // Make a new logger, or return an existing one
 
 module.exports = function(_opts) {
-  opts = _opts || {};
+  const opts = _opts || {};
   const braces = ('braces' in opts) ? opts.braces : false;
   const id = ('id' in opts) ? opts.id : Math.floor(Math.random() * 100000);
   if (id in logs) return logs[id];
@@ -51,5 +51,3 @@ module.exports = function(_opts) {
   logs[id] = log;
   return log;
 }
-
-
