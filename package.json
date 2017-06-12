@@ -1,6 +1,6 @@
 {
   "name": "config-one",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "One config library to rule them all",
   "main": "dist/main.js",
   "directories": {
